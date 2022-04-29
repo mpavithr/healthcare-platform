@@ -7,8 +7,6 @@ There are 3 modules to this application:
 2. Chat
 3. Device
 
-Work on each module will be done in sprints. 
-
 ## Code structure
 
 This repository contains the front end code for the entire application (REACT-Native) + Backend for the chat application + user authentication which are both done via Firebase.
