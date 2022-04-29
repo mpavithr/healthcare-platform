@@ -16,7 +16,12 @@ This repository contains the front end code for the entire application (REACT-Na
 The rest of the backend code (Django) is in this repository - https://github.com/mpavithr/Patient-Monitoring-System-with-Django
 
 ```RNFirebase``` folder consists of the chat application.
+
 ```screens``` folder consists of the various screens of the healthcare application such as login screen, home screen, sign up screen etc.
+
+```App.js``` consists of the react native application navigation logic.
+
+```Tests``` folder consists of tests.
 
 ## API calls
 
