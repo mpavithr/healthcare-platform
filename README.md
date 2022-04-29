@@ -1,4 +1,4 @@
-# Patient-Monitoring-Application
+# Healthcare-Application
 
 A REACT Native Application
 
@@ -8,6 +8,14 @@ There are 3 phases to this application:
 3. Device
 
 Work on each phase will be done in sprints. 
+
+This repository contains the front end code for the entire application (REACT-Native) + Backend for the chat application within the healthcare application + user authentication.
+
+The rest of the backend code (Django) is in this repository - https://github.com/mpavithr/Patient-Monitoring-System-with-Django
+
+## API calls
+
+The API calls I created for the project is explained [here](https://github.com/mpavithr/healthcare-platform/wiki/API-explanation)
 
 ## Users
 
