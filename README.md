@@ -9,9 +9,11 @@ There are 3 modules to this application:
 
 ## Code structure
 
-This repository contains the front end code for the entire application (REACT-Native) + Backend for the chat application + user authentication which are both done via Firebase.
+This repository contains the front end code for the entire healthcare application (REACT-Native). It also contains all the firebase backend code. User authentication in the user module and chat module uses firebase backend. 
 
-The rest of the backend code (Django) is in this repository - https://github.com/mpavithr/Patient-Monitoring-System-with-Django
+The rest of the backend code (Django) is in this repository - https://github.com/mpavithr/Patient-Monitoring-System-with-Django (ECE 530 Project 2 & 3)
+
+Flask version of the above backend code is in this repository - https://github.com/mpavithr/Patient-Monitoring-Platform (ECE 530 Project 2)
 
 ```RNFirebase``` folder consists of the chat application.
 
@@ -60,3 +62,4 @@ Testing consists of:
 2. Chat module testing: Testing whether chats can be sent and whether they can be retreived from the database
 3. Device Module testing: Testing whether conditional rendering works and Testing whether appropriate measurements are accepted
 4. Database injection testing
+5. Tests in [my django repo](https://github.com/mpavithr/Patient-Monitoring-System-with-Django)
