@@ -66,11 +66,25 @@ The device module consists of:
 For a detailed explanation and screenshots of this module, click [here](https://github.com/mpavithr/healthcare-platform/wiki/Device)
 
 ## Testing 
-Refer to the ```Test``` Folder
 
 Testing consists of:
-1. User module testing: Testing whether conditional rendering works, meaning, if a doctor logs in, does the application render home page for doctors or if a patient logs in, does the application render home page for patients.
-2. Chat module testing: Testing whether chats can be sent and whether they can be retreived from the database
-3. Device Module testing: Testing whether conditional rendering works and Testing whether appropriate measurements are accepted
-4. Database injection testing
-5. Tests in [my django repo](https://github.com/mpavithr/Patient-Monitoring-System-with-Django)
+
+1. Unit Tests for backend in [my django repo](https://github.com/mpavithr/Patient-Monitoring-System-with-Django). Go to ```user/tests/``` folder in that repo.
+
+2. User module testing: Testing whether conditional rendering works, meaning, if a doctor logs in, does the application render home page for doctors or if a patient logs in, does the application render home page for patients. Works - check screenshots
+
+3. Chat module testing: Testing whether chats can be sent and whether they can be retreived from the database. Works - check screenshots
+
+4. Device Module testing: Testing whether conditional rendering works. Works - check screenshots
+
+5. Handling invalid user input in ```Login.js```, ```Signup.js``` and ```Device.js```. Manual testing.
+   a. User enters invalid email id. Response -> Popup telling user to enter valid email id.
+   b. User enters invalid number for role. Response -> Popup telling user to enter valid role.
+   c. User enters wrong credentials for logging in. Response -> Popup telling user to enter valid credentials.
+   d. User enters invalid machine id. Response -> Popup telling user to enter valid machine id.
+   e. User enters invalid date for date assigned or date returned. Response -> Popup telling user to enter date in valid format.
+   f. User logs in with empty credentials. Response -> Popup telling user to enter login credentials.
+   g. User signs up with empty fields. Response -> Popup telling user to enter all sign up details.
+   h. User sends empty measurement details. Response -> Popup telling user to enter all device measurement details.
+   i. User logs in with unregistered credentials. Response -> Popup saying user not found.
+   j. User logs in with wrong password. Response -> Popup saying wrong password.
