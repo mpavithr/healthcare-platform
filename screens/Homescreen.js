@@ -1,78 +1,80 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, createContext, useContext, useEffect } from 'react';
 import { Flatlist, SafeAreaView, StatusBar, TouchableOpacity, StyleSheet, Text, View, Button, TextInput } from 'react-native';
+import firestore from '@react-native-firebase/firestore';
 
 import { signOut } from 'firebase/auth';
 
 import { auth } from '../config/firebase';
 import { render } from 'react-dom';
+import { onAuthStateChanged } from 'firebase/auth';
+
+const AuthenticatedUserContext = createContext({});
+//Creating an auth provider - this provider allows screen components to access the current user in the app.
+const AuthenticatedUserProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
+
+  return (
+    <AuthenticatedUserContext.Provider value={{ user, setUser }}>
+      {children}
+    </AuthenticatedUserContext.Provider>
+  );
+};
 
 export default function HomeScreen( {navigation} ) {
+  const { user, setUser } = useContext(AuthenticatedUserContext);
   const [role, setRole] = useState(1);
   const [userdata, setUserdata] = useState({});
   const [patientsdata, setPatientsdata] = useState([]);
   const [doctorsdata, setDoctorsdata] = useState([]);
-  /*
-  useEffect(()=> {
-    const url = "https://randomuser.me/api/?results=15";
-    fetch(url)
-      .then((response) => response.json())
-      .then((json) => setData(json['results']))
-      .catch((error) => console.log(error));
-  },[]);
-  */
+  const [roomName, setRoomName] = useState('');
+  const [uid, setUid] = useState('');
+
   useEffect(() => {
-    setUserdata({
-      "primary_key": 8,
-      "role": 1,
-      "firstname": "John",
-      "lastname": "Smith"
-    })
-    setRole(userdata["role"]);
-    //setRole(1);
-  },[role]);
-  //API Call to get list of all doctors
-  useEffect(() => {
-    const drdata = [
-      {
-        "primary_key": 8,
-        "firstname": "Ned",
-        "lastname": "Stark"
-      },
-      {
-        "primary_key": 9,
-        "firstname": "Arya",
-        "lastname": "Stark"
-      },
-      {
-        "primary_key": 10,
-        "firstname": "Ryle",
-        "lastname": "Kinkaid"
+    // onAuthStateChanged returns an unsubscriber ie handles the user's logged in state changes
+    const unsubscribeAuth = onAuthStateChanged(
+      auth,
+      async authenticatedUser => {
+        if (authenticatedUser == null) {
+          return;
+        }
+        const userId = authenticatedUser["uid"];
+        const userdata = {userId};
+        setUid(userdata["userId"]);
+        fetch('http://ec2-52-200-233-118.compute-1.amazonaws.com/user/get_user/',{
+            method: 'POST',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(userdata)
+          }).then(res => {
+            return res.json();
+          }).then(data => {
+            setUserdata(data);
+            setRole(data["role"]);
+            fetch('http://ec2-52-200-233-118.compute-1.amazonaws.com/user/get_doctors/',{
+              method: 'GET'
+            }).then(res => {
+              return res.json();
+            }).then(data => {
+              setDoctorsdata(data);
+            })
+            fetch('http://ec2-52-200-233-118.compute-1.amazonaws.com/user/get_patients/',{
+              method: 'GET'
+            }).then(res => {
+              return res.json();
+            }).then(data => {
+              setPatientsdata(data);
+            })
+          })
+          .catch(err => {
+            console.log(err.message);
+          })
       }
-    ]
-    setDoctorsdata(drdata);
-  },[doctorsdata]);
-  //API Call to get list of all patients
-  useEffect(() => {
-    const pdata = [
-      {
-        "primary_key": 4,
-        "firstname": "Jaime",
-        "lastname": "Lannister"
-      },
-      {
-        "primary_key": 5,
-        "firstname": "Lily",
-        "lastname": "Bloom"
-      },
-      {
-        "primary_key": 6,
-        "firstname": "Sonmi",
-        "lastname": "451"
-      }
-    ]
-    setPatientsdata(pdata);
-  },[patientsdata]);
-  //to sign out
+    );
+
+    // unsubscribe auth listener on unmount
+    return unsubscribeAuth;
+  }, [user]);
+  
+
   const onSignOut = () => {
       console.log('logout')
       signOut(auth).catch(error => console.log('Error logging out: ', error));
@@ -83,9 +85,9 @@ export default function HomeScreen( {navigation} ) {
     const doctor = doctorsdata[i]
     patientloop.push(
       <View key={i}>
-      <h4>{i+1}. {doctor.firstname} {doctor.lastname}</h4>
+      <h4>{i+1}. Dr. {doctor.first_name} {doctor.last_name}</h4>
       <Button
-        onPress={() => navigation.navigate('Chat')}
+        onPress={() => navigation.navigate('Chat', {myID:uid, otherID:doctor.id, myRole:role})}
         title='Chat'
       />
       </View>
@@ -100,7 +102,7 @@ export default function HomeScreen( {navigation} ) {
           <View style={styles.space} /> 
           <h3 align='center'>Record your measurements</h3>
           <Button
-            onPress={() => navigation.navigate('Device')}
+            onPress={() => navigation.navigate('Device',{patient_id: uid})}
             title='Device'
             color='#f57c00'
           />
@@ -121,14 +123,14 @@ export default function HomeScreen( {navigation} ) {
     const patient = patientsdata[i]
     myloop.push(
       <View key={i}>
-      <h4>{i+1}. {patient.firstname} {patient.lastname}</h4>
+      <h4>{i+1}. {patient.first_name} {patient.last_name}</h4>
       <Button
-          onPress={() => navigation.navigate('ViewMeasurements')}
+          onPress={() => navigation.navigate('ViewMeasurements', {measurementData: patient.measurements})}
           title='View health measurements'
           color='#f57c00'
       />
       <Button
-        onPress={() => navigation.navigate('Chat')}
+        onPress={() => navigation.navigate('Chat', {myID: uid, otherID: patient.id, myRole:role})}
         title='Chat with this patient'
       />
       </View>

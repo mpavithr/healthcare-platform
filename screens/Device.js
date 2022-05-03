@@ -6,7 +6,8 @@ import { signOut } from 'firebase/auth';
 
 import { auth } from '../config/firebase';
 
-export default function Device({ navigation }) {
+export default function Device({ route, navigation }) {
+  const { patient_id } = route.params;
   const [machineid, setMachineid] = useState('');
   const [dateAssigned, setDateassigned] = useState('');
   const [dateReturned, setDatereturned] = useState('');
@@ -15,6 +16,23 @@ export default function Device({ navigation }) {
     console.log('logout')
     signOut(auth).catch(error => console.log('Error logging out: ', error));
   };
+  const sendMeasurements = () => {
+    console.log(patient_id);
+    const userdata = {patient_id, machineid, dateAssigned, dateReturned, measurement};
+    fetch('http://ec2-52-200-233-118.compute-1.amazonaws.com/user/create_patient_device_measurement/',{
+            method: 'POST',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(userdata)
+          }).then(res => {
+            return res.json();
+          }).then(data => {
+            console.log(data);
+          })
+          .catch(err => {
+            console.log(err.message);
+          })
+  }
+  
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Enter measurement</Text>
@@ -46,6 +64,7 @@ export default function Device({ navigation }) {
       <Button
           title='Send Measurement'
           color='#f57c00'
+          onPress={sendMeasurements}
       />
       <Button
           onPress={onSignOut}

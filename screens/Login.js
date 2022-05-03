@@ -7,12 +7,31 @@ import { auth } from '../config/firebase';
 export default function Login({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [uid, setUID] = useState('');
 
   const onHandleLogin = () => {
     if (email !== '' && password !== '') {
       signInWithEmailAndPassword(auth, email, password)
-        .then((response) => console.log('Login success', response))
+        .then((response) =>{
+          setUID(response['user']['uid']);
+          const userId = response["user"]["uid"];
+          const userdata = {userId};
+          fetch('http://ec2-52-200-233-118.compute-1.amazonaws.com/user/get_user/',{
+            method: 'POST',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(userdata)
+          }).then(res => {
+            return res.json();
+          }).then(data => {
+            console.log(data);
+          })
+          .catch(err => {
+            console.log(err.message);
+          })
+        })
         .catch(err => console.log(`Login err: ${err}`));
+      
+      
     }
   };
 

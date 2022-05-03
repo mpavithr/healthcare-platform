@@ -9,12 +9,31 @@ export default function Signup({ navigation }) {
   const [password, setPassword] = useState('');
   const [firstname, setFirstname] = useState('');
   const [lastname, setLastname] = useState('');
-  const [role, setRole] = useState('');
+  const [role, setRole] = useState(0);
+  const [isPending, setIsPending] = useState('false');
+  const [uid, setUID] = useState(''); 
 
   const onHandleSignup = () => {
     if (email !== '' && password !== '') {
       createUserWithEmailAndPassword(auth, email, password)
-        .then(() => console.log('Signup success'))
+        .then((response) => {
+          setUID(response['user']['uid']);
+          const userId = response["user"]["uid"];
+          const userdata = {userId, firstname, lastname, email, role};
+          setIsPending('true');
+          fetch('http://ec2-52-200-233-118.compute-1.amazonaws.com/user/create_user/',{
+            method: 'POST',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(userdata)
+          }).then(res => {
+            return res.json();
+          }).then(data => {
+            console.log(data);
+          })
+          .catch(err => {
+            console.log(err.message);
+          })
+        })
         .catch(err => console.log(`Login err: ${err}`));
     }
   };
@@ -57,6 +76,7 @@ export default function Signup({ navigation }) {
         value={lastname}
         onChangeText={text => setLastname(text)}
       />
+      <Text>Enter role (1 if patient, 2 if doctor)</Text>
       <TextInput
         style={styles.input}
         placeholder='Enter role (1 if patient, 2 if doctor)'
@@ -66,10 +86,7 @@ export default function Signup({ navigation }) {
         onChangeText={text => setRole(text)}
       />
       <Button onPress={onHandleSignup} color='#f57c00' title='Signup' />
-      <Button
-        onPress={() => navigation.navigate('Login')}
-        title='Go to Login'
-      />
+  
     </View>
   );
 }

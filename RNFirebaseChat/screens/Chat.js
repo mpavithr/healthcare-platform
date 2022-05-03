@@ -18,6 +18,7 @@ import { signOut } from 'firebase/auth';
 import { auth, database } from '../config/firebase';
 
 export default function Chat({ navigation }) {
+  console.log("FirebaseChat screen");
   const [messages, setMessages] = useState([]);
 
   const onSignOut = () => {
@@ -77,12 +78,12 @@ export default function Chat({ navigation }) {
 
   return (
     <GiftedChat
-      messages={messages}
+      messages={messages} 
       showAvatarForEveryMessage={true}
       onSend={messages => onSend(messages)}
       user={{
         _id: auth?.currentUser?.email,
-        avatar: 'https://avatars.githubusercontent.com/u/10234615?v=4'
+        avatar: 'https://www.pexels.com/photo/close-up-photo-of-a-stethoscope-40568/'
       }}
     />
   );
