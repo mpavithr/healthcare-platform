@@ -7,6 +7,10 @@ There are 3 modules to this application:
 2. Chat
 3. Device
 
+## Requirements
+
+
+
 ## Code structure
 
 This repository contains the front end code for the entire healthcare application (REACT-Native). It also contains all the firebase backend code. User authentication in the user module and chat module uses firebase backend. 
@@ -25,7 +29,16 @@ The rest of the backend code (Django) is in this repository - https://github.com
 
 The API calls I created for the project is explained [here](https://github.com/mpavithr/healthcare-platform/wiki/API-explanation)
 
-## Users
+## Screens 
+
+1. Login Screen - ```screens/Login.js```
+2. Signup Screen - ```screens/Signup.js```
+3. Homepage Screen - ```screens/Homescreen.js```
+4. Chat Screen - ```screens/Chat.js```
+5. Screen to post measurements - ```screens/Device.js```
+6. Screen to view measurements - ```screens/ViewMeasurements.js```
+
+## User Module
 
 The users module of the project consists of:
 1. User Authentication
@@ -34,8 +47,8 @@ The users module of the project consists of:
 
 More details with screenshots explained [here](https://github.com/mpavithr/healthcare-platform/wiki/Users)
 
-## Chat
-
+## Chat Module
+ 
 The chat module consists of:
 1. Chat application (react-native-gifted-chat)
 2. Backend on firebase which stores every chat room and chat messages
@@ -43,7 +56,7 @@ The chat module consists of:
 
 For a detailed explaination and screenshots of this module, click [here](https://github.com/mpavithr/healthcare-platform/wiki/Chat)
 
-## Device
+## Device Module
 
 The device module consists of:
 1. Conditional rendering based on API calls that determine whether the user using the application is a doctor or a patient
@@ -52,7 +65,7 @@ The device module consists of:
 
 For a detailed explanation and screenshots of this module, click [here](https://github.com/mpavithr/healthcare-platform/wiki/Device)
 
-## Testing
+## Testing 
 Refer to the ```Test``` Folder
 
 Testing consists of:
