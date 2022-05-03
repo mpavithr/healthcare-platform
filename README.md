@@ -9,7 +9,13 @@ There are 3 modules to this application:
 
 ## Requirements
 
+## Birds Eye View of the Application
 
+A web application that virtualizes the clinic experience. Users can register as a doctor or a patient using ther email and other details. Once registered, users can sign in to the application using their email to start using it. 
+
+As a patient, the patient can view all doctors registered in the application and can chat in real-time with any doctor they wish and each chat message will be stored. The patient can also self record various measurements such as temperature, blood pressure etc. at home and post their measurements on the application. 
+
+As a doctor, the doctor can view all patients registered in the system and can choose to help any patient at any time. Doctors can chat in real time with any patient and each chat message between the doctor and patient will be stored.
 
 ## Code structure
 
