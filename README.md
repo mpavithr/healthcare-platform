@@ -27,6 +27,14 @@ The rest of the backend code (Django) is in this repository - https://github.com
 
 The API calls I created for the project is explained [here](https://github.com/mpavithr/healthcare-platform/wiki/API-explanation)
 
+## Database
+
+This application uses a SQLite3 database on EC-2.
+
+Database schema is as follows. Colored boxes indicate links between different tables.
+
+<img width="767" alt="database_schema" src="https://user-images.githubusercontent.com/42751267/166584596-c4dacf2d-b40c-4532-a4f7-971705a0944c.PNG">
+
 ## Screens 
 
 1. Login Screen - ```screens/Login.js```
