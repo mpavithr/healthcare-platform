@@ -15,7 +15,7 @@ There are 3 modules to this application:
 
 This repository contains the front end code for the entire healthcare application (REACT-Native). It also contains all the firebase backend code. User authentication in the user module and chat module uses firebase backend. 
 
-The rest of the backend code (Django) is in this repository - https://github.com/mpavithr/Patient-Monitoring-System-with-Django (Check the user folder for all my APIs used in this project.)
+The rest of the backend code (Django) is in this repository - https://github.com/mpavithr/Patient-Monitoring-System-with-Django (Check the user folder in the repo for all my APIs used in this project.)
 
 ```RNFirebase``` folder consists of the chat application.
 
