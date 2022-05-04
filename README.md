@@ -98,3 +98,7 @@ Testing consists of:
    i. User logs in with unregistered credentials. Response -> Popup saying user not found.
    
    j. User logs in with wrong password. Response -> Popup saying wrong password.
+
+## SQL Injection Prevention
+
+This application uses django for backend. I have used Django’s Object Relational Mapping (ORM) layer. Within that layer, Django protects itself from SQL injection by using query parameterization. Within the ORM layer, Django defines SQL queries separated from the query’s parameters, and the database driver is in charge of escaping each of the parameters. 
