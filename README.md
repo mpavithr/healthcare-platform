@@ -99,6 +99,7 @@ Testing consists of:
    
    j. User logs in with wrong password. Response -> Popup saying wrong password.
 
-## SQL Injection Prevention
+## Database Injection Prevention
 
-This application uses django for backend. I have used Django’s Object Relational Mapping (ORM) layer. Within that layer, Django protects itself from SQL injection by using query parameterization. Within the ORM layer, Django defines SQL queries separated from the query’s parameters, and the database driver is in charge of escaping each of the parameters. 
+This application uses django for backend. I have used Django’s Object Relational Mapping (ORM) layer. Within that layer, Django protects itself from SQL injection by using query parameterization. Within the ORM layer, Django defines SQL queries separated from the query’s parameters, and the database driver is in charge of escaping each of the parameters. Also, I am not using RAW SQL in the application. And since all the queries and user input are sanitized by Django, SQL injections are prevented. 
+Moreover, this application uses firebase to authenticate users. This means that only known users can access the application. This prevents unknown users from accessing my application.
