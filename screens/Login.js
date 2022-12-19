@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, Alert } from 'react-native';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 
 import { auth } from '../config/firebase';
@@ -10,7 +10,19 @@ export default function Login({ navigation }) {
   const [uid, setUID] = useState('');
 
   const onHandleLogin = () => {
-    if (email !== '' && password !== '') {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if(re.test(email)==false){
+      /*
+      Alert.alert(
+        "Enter valid email address",
+        [
+          { text: "OK", onPress: () => console.log("OK Pressed") }
+        ]
+        )
+      */
+     window.alert('Enter valid email address');
+    }
+    else if (email !== '' && password !== '') {
       signInWithEmailAndPassword(auth, email, password)
         .then((response) =>{
           setUID(response['user']['uid']);
@@ -27,11 +39,15 @@ export default function Login({ navigation }) {
           })
           .catch(err => {
             console.log(err.message);
+            window.alert(err.message);
           })
         })
-        .catch(err => console.log(`Login err: ${err}`));
+        .catch(err =>  window.alert(err.message));
       
       
+    }
+    else{
+      window.alert("Enter your login credentials");
     }
   };
 

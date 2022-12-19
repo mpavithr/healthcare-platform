@@ -17,9 +17,16 @@ export default function Device({ route, navigation }) {
     signOut(auth).catch(error => console.log('Error logging out: ', error));
   };
   const sendMeasurements = () => {
-    console.log(patient_id);
     const userdata = {patient_id, machineid, dateAssigned, dateReturned, measurement};
-    fetch('http://ec2-52-200-233-118.compute-1.amazonaws.com/user/create_patient_device_measurement/',{
+    if(isNaN(machineid) || machineid < 1 || machineid > 5){
+      window.alert('Enter a number corresponding to a machine id for the measurement you are taking ie 1 to 5.')
+    }
+    var re = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
+    if(re.test(dateAssigned)==false && re.test(dateReturned)==false){
+      window.alert('Enter the date in YYYY-MM-DD format to send measurements')
+    }
+    if (machineid !== '' && dateAssigned !== '' && dateReturned !== '' && measurement !== '') {
+      fetch('http://ec2-52-200-233-118.compute-1.amazonaws.com/user/create_patient_device_measurement/',{
             method: 'POST',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(userdata)
@@ -31,11 +38,16 @@ export default function Device({ route, navigation }) {
           .catch(err => {
             console.log(err.message);
           })
+    }
+    else{
+      window.alert("All details are required to send measurements.");
+    }
   }
   
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Enter measurement</Text>
+      <Text>Machine ID: 1 - thermometer, 2 - glucometer, 3 - BP monitor, 4 - weighing scale, 5 - height machine</Text>
       <TextInput
         style={styles.input}
         placeholder='Enter machine id'
@@ -45,13 +57,13 @@ export default function Device({ route, navigation }) {
       />
       <TextInput
         style={styles.input}
-        placeholder='Enter date assigned'
+        placeholder='Enter date assigned in YYYY-MM-DD format'
         value={dateAssigned}
         onChangeText={text => setDateassigned(text)}
       />
       <TextInput
         style={styles.input}
-        placeholder='Enter date returned'
+        placeholder='Enter date returned in YYYY-MM-DD format'
         value={dateReturned}
         onChangeText={text => setDatereturned(text)}
       />

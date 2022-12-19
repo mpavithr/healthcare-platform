@@ -14,7 +14,17 @@ export default function Signup({ navigation }) {
   const [uid, setUID] = useState(''); 
 
   const onHandleSignup = () => {
-    if (email !== '' && password !== '') {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if(re.test(email)==false){
+      window.alert('Enter valid email address')
+    }
+    else if(role!=1 && role!=2){
+      window.alert('Please enter a valid role')
+    }
+    else if(password.length < 6){
+      window.alert('Password has to be atleast 6 characters.')
+    }
+    else if (email !== '' && password !== '' && firstname !== '' && lastname !== '' && role !== '') {
       createUserWithEmailAndPassword(auth, email, password)
         .then((response) => {
           setUID(response['user']['uid']);
@@ -26,15 +36,19 @@ export default function Signup({ navigation }) {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(userdata)
           }).then(res => {
+            console.log(res);
             return res.json();
           }).then(data => {
             console.log(data);
           })
           .catch(err => {
-            console.log(err.message);
+            window.alert(err.message);
           })
         })
-        .catch(err => console.log(`Login err: ${err}`));
+        .catch(err =>  window.alert(err.message));
+    }
+    else{
+      window.alert("All details are required to sign up");
     }
   };
 

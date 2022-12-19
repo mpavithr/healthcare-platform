@@ -92,7 +92,7 @@ export default function Chat({ route, navigation }) {
       onSend={messages => onSend(messages)}
       user={{
         _id: auth?.currentUser?.email,
-        avatar: 'https://www.pexels.com/photo/close-up-photo-of-a-stethoscope-40568/'
+        avatar: 'https://i.scdn.co/image/ab6761610000e5ebb0527c32ded4594c557f613a'
       }}
     />
   );
